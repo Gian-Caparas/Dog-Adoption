@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-5 fw-bold" style="color: #2d3436;">🎉 Happy Success Stories</h1>
+    
+    <div class="row">
+        {% for dog in dogs %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0" style="opacity: 0.8;"> <div style="height: 250px; overflow: hidden;">
+                    {% if dog.image %}
+                        <img src="{{ dog.image.url }}" class="w-100 h-100" style="object-fit: cover; filter: grayscale(50%);">
+                    {% endif %}
+                </div>
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ dog.name }}</h3>
+                    <span class="badge bg-success mb-2">ADOPTED</span>
+                    <p class="text-muted">Found a forever home! 🏠</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center">
+            <p class="lead">No adoptions yet. Hopefully soon!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4 mb-5">
+    <div class="p-5 rounded-5" style="background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%); color: white;">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <h1 class="display-4 fw-bold mb-3">Don't shop. Adopt.</h1>
+                <p class="lead mb-4" style="opacity: 0.9;">Give a loving home to a furry friend today. Browse our available dogs below and find your perfect match.</p>
+                <a href="#dogs-list" class="btn btn-light rounded-pill px-4 fw-bold" style="color: #ff7675;">View Pets 👇</a>
+            </div>
+            <div class="col-md-5 d-none d-md-block text-center">
+                <span style="font-size: 150px;">🐶</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="dogs-list">
+    <div class="row">
+        {% for dog in dogs %}
+        <div class="col-md-4 mb-5">
+            <div class="card dog-card h-100">
+                
+                <div style="height: 280px; overflow: hidden; position: relative;">
+                    {% if dog.image %}
+                        <img src="{{ dog.image.url }}" class="w-100 h-100" style="object-fit: cover;" alt="{{ dog.name }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1" class="w-100 h-100" style="object-fit: cover;" alt="Placeholder">
+                    {% endif %}
+                    
+                    <span class="position-absolute top-0 end-0 m-3 badge rounded-pill 
+                        {% if dog.status == 'available' %}bg-success{% else %}bg-secondary{% endif %}">
+                        {{ dog.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="card-body p-4 text-center">
+                    <h3 class="fw-bold mb-1">{{ dog.name }}</h3>
+                    <p class="text-muted small text-uppercase spacing-2">{{ dog.breed }}</p>
+                    <p class="card-text text-secondary mb-4">{{ dog.description|truncatewords:15 }}</p>
+                    
+                    {% if dog.status == 'available' %}
+                        <a href="/adopt/{{ dog.id }}/" class="btn btn-custom w-100 text-white">
+                            Adopt Me <i class="bi bi-arrow-right-short"></i>
+                        </a>
+                    {% else %}
+                        <button class="btn btn-secondary w-100 rounded-pill" disabled>Found a Home 🏠</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <h3 class="text-muted">No pets available right now.</h3>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
